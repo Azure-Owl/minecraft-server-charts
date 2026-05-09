@@ -299,7 +299,7 @@ spec:
 
         ports:
         - name: minecraft
-          containerPort: 25565
+          port: {{ .Values.minecraftServer.servicePort | default 25565 }}
           protocol: TCP
         {{- if .Values.minecraftServer.rcon.enabled }}
         - name: rcon
@@ -358,7 +358,7 @@ spec:
 {{- template "minecraft.envMap" list "PRUNE_BACKUPS_DAYS" .Values.mcbackup.pruneBackupsDays  }}
 {{- template "minecraft.envMap" list "PAUSE_IF_NO_PLAYERS" .Values.mcbackup.pauseIfNoPlayers  }}
         - name: SERVER_PORT
-          value: "25565"
+          value: {{ default 25565 .Values.minecraftServer.servicePort | quote }}
         - name: RCON_HOST
           value: "localhost"
 {{- template "minecraft.envMap" list "RCON_PORT" .Values.minecraftServer.rcon.port  }}
